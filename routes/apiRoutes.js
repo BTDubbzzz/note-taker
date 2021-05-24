@@ -15,5 +15,14 @@ module.exports = (app) => {
 		fs.writeFile('./Develop/db/db.json', JSON.stringify(notesDB), (err) => {});
 		res.json(newNote);
 	});
-	app.delete('/api/notes/:id', function (req, res) {});
+	app.delete('/api/notes/:id', function (req, res) {
+		for (let i = 0; i < notesDB.length; i++) {
+			const noteID = notesDB[i].id;
+			if (noteID == req.params.id) {
+				notesDB.splice([i], 1);
+			}
+		}
+		fs.writeFile('./Develop/db/db.json', JSON.stringify(notesDB), (err) => {});
+		res.json(notesDB);
+	});
 };
