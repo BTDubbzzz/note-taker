@@ -10,6 +10,8 @@ module.exports = (app) => {
 	});
 	app.post('/api/notes', function (req, res) {
 		const newNote = req.body;
+		newNote.id = Math.floor(Math.random() * 1000000);
+		console.log('newNote :>> ', newNote);
 		notesArray.push(newNote);
 		fs.writeFile('./Develop/db/db.json', JSON.stringify(notesArray), (err) => {});
 		res.json(newNote);
