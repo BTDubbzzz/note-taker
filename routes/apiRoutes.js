@@ -1,6 +1,6 @@
 const fs = require('fs');
 const util = require('util');
-const notesArray = require('../Develop/data/noteData');
+const notesDB = require('../Develop/db/db.json');
 
 module.exports = (app) => {
 	app.get('/api/notes', function (req, res) {
@@ -11,9 +11,9 @@ module.exports = (app) => {
 	app.post('/api/notes', function (req, res) {
 		const newNote = req.body;
 		newNote.id = Math.floor(Math.random() * 1000000);
-		console.log('newNote :>> ', newNote);
-		notesArray.push(newNote);
-		fs.writeFile('./Develop/db/db.json', JSON.stringify(notesArray), (err) => {});
+		notesDB.push(newNote);
+		fs.writeFile('./Develop/db/db.json', JSON.stringify(notesDB), (err) => {});
 		res.json(newNote);
 	});
+	app.delete('/api/notes/:id', function (req, res) {});
 };
