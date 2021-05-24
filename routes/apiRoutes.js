@@ -1,5 +1,5 @@
 const fs = require('fs');
-const util = require('util');
+const uniqid = require('uniqid');
 const notesDB = require('../Develop/db/db.json');
 
 module.exports = (app) => {
@@ -10,7 +10,8 @@ module.exports = (app) => {
 	});
 	app.post('/api/notes', function (req, res) {
 		const newNote = req.body;
-		newNote.id = Math.floor(Math.random() * 1000000);
+		newNote.id = uniqid();
+		console.log('newNote.id :>> ', newNote.id);
 		notesDB.push(newNote);
 		fs.writeFile('./Develop/db/db.json', JSON.stringify(notesDB), (err) => {});
 		res.json(newNote);
@@ -18,7 +19,7 @@ module.exports = (app) => {
 	app.delete('/api/notes/:id', function (req, res) {
 		for (let i = 0; i < notesDB.length; i++) {
 			const noteID = notesDB[i].id;
-			if (noteID == req.params.id) {
+			if (noteID === req.params.id) {
 				notesDB.splice([i], 1);
 			}
 		}
